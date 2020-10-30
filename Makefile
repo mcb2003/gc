@@ -5,7 +5,7 @@ OBJECTS = ${SOURCES:.c=.o}
 	HEADERS = $(shell ls *.h)
 BINARY = gc
 
-.PHONY: all clean
+.PHONY: all release clean
 
 all: CFLAGS += -DDEBUG -O0 -g
 all: ${BINARY}
