@@ -55,6 +55,15 @@ void normal() {
     printf("\x1b[0M");
 }
 
+// If the output is to a terminal, print the filename in bold
+void print_filename(const char *fname) {
+    if(is_tty()) {
+        bold();
+        printf("%s:\n", fname);
+        normal();
+    }
+}
+
 // The entrypoint to the program
 int main(int argc, char *argv[]) {
     // Set the program name
@@ -74,13 +83,7 @@ int main(int argc, char *argv[]) {
         // Try to open the file
             FILE *fp = fopen(argv[i], "r");
         if(!fp) die(argv[i]); // Error reading file
-
-        // If the output is to a terminal, print the filename in bold
-        if(is_tty()) {
-            bold();
-            printf("%s:\n", argv[i]);
-            normal();
-        }
+        print_filename(argv[i]);
 
         bool seenTextStart = false; // have we seen the first non-space char?
         bool seenPeriod = false;
