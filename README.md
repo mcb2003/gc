@@ -1,4 +1,4 @@
-# gc - Grammar Correcter
+# gc - Grammar Corrector
 
 This started out of an idea spawned by a question on an exam paper that
 asked me to write an algorithm to automatically capitalise letters at the
@@ -52,6 +52,6 @@ For complete help and usage examples, run `./gc --help`:
             ./gc # Read from STDIn
             ./gc file1|-[ file2|-[ ...]]
 
-    ./gc - Grammar Correcter  Copyright (C) 2020  Michael Connor Buchan
+    ./gc - Grammar Corrector  Copyright (C) 2020  Michael Connor Buchan
     Corrects grammar and punctuation, and collapses white-space in each of the input
     files, outputting to STDOUT by default.

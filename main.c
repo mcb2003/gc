@@ -1,5 +1,5 @@
 /*
-    gc - Grammar Correcter
+    gc - Grammar Corrector
     Copyright (C) 2020  Michael Connor Buchan
 
     This program is free software: you can redistribute it and/or modify
@@ -38,7 +38,7 @@ void help() {
         fprintf(stderr, "Usage:\n");
         fprintf(stderr, "\t%s # Read from STDIn\n", G_PROG_NAME);
         fprintf(stderr, "\t%s file1|-[ file2|-[ ...]]\n", G_PROG_NAME);
-        fprintf(stderr, "\n%s - Grammar Correcter  Copyright (C) 2020  Michael Connor Buchan\n", G_PROG_NAME);
+        fprintf(stderr, "\n%s - Grammar Corrector  Copyright (C) 2020  Michael Connor Buchan\n", G_PROG_NAME);
         fprintf(stderr, "Corrects grammar and punctuation, and collapses white-space in each of the input\nfiles, outputting to STDOUT by default.\n");
         // The user just asked for help, this was a success
         exit(EXIT_SUCCESS);
