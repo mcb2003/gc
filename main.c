@@ -30,10 +30,12 @@ int main(int argc, char *argv[]) {
     for(int i = 1; i < argc; ++i) {
             FILE *fp = fopen(argv[i], "r");
         if(!fp) die(argv[i]); // Error reading file
+        bool seenTextStart = false; // have we seen the first non-space char?
         bool seenPeriod = false;
         bool seenSpace = false;
         while(!feof(fp)) {
             char c = fgetc(fp);
+
             if(!seenSpace && isspace(c)) seenSpace = true;
             else if(isgraph(c)) seenSpace = false;
             else if(isspace(c)) continue;
@@ -42,8 +44,11 @@ int main(int argc, char *argv[]) {
                 printf(".");
                 continue;
             }
-            if(seenPeriod && islower(c)) c = toupper(c);
-            if(isgraph(c)) seenPeriod = false;
+            if((seenPeriod || !seenTextStart) && islower(c)) c = toupper(c);
+            if(isgraph(c)) {
+                seenTextStart = true;
+                seenPeriod = false;
+            }
             printf("%c", c);
         }
             fclose(fp);
