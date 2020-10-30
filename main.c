@@ -1,11 +1,13 @@
-#include <ctype.h>
-#include <errno.h>
-#include <locale.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <ctype.h> // Char comparison functions
+#include <errno.h> // Error handling
+#include <locale.h> // Localisation
+#include <stdbool.h> // Booleans
+#include <stdio.h> // Input / Output
+#include <stdlib.h> // Mem management, file I/O
+#include <string.h> // Comparing strings
 
+// The name of this program
+// This is modified by main() if it is recieved as the first command-line arg
 char *G_PROG_NAME = "gc";
 
 // Prints help / usage information
@@ -15,8 +17,10 @@ void help(bool usage) {
         if(!usage) {
             fprintf(stderr, "\n%s - Grammar Correcter\n", G_PROG_NAME);
             fprintf(stderr, "Corrects grammar and punctuation, and collapses white-space in each of the input\nfiles, outputting to STDOUT by default.\n");
+            // The user just asked for help, this was a success
             exit(EXIT_SUCCESS);
         }
+        // The user didn't provide the correct args, fail!
         exit(EXIT_FAILURE);
 }
 
@@ -27,6 +31,7 @@ void die(const char *error) {
     char *text = (char *) malloc(len);
     snprintf(text, len, "%s: %s", G_PROG_NAME, error);
     text[len - 1] = '\0';
+
     // Print the error to STDERR
     perror(text);
 
@@ -35,6 +40,7 @@ void die(const char *error) {
     exit(errno);
 }
 
+// The entrypoint to the program
 int main(int argc, char *argv[]) {
     // Set the program name
     G_PROG_NAME = argv[0];
@@ -43,10 +49,12 @@ int main(int argc, char *argv[]) {
 
     // If no files were provided, error!
     if(argc < 2) help(true);
+    // If the user asked for help, output it
     if(argc == 2 && (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0))
         help(false);
 
-    // Check each file specified on the command line
+    // Process each file specified on the command-line
+    // Starts at 1 because 0 is the prog name
     for(int i = 1; i < argc; ++i) {
         // Try to open the file
             FILE *fp = fopen(argv[i], "r");
@@ -56,7 +64,7 @@ int main(int argc, char *argv[]) {
         bool seenPeriod = false;
         bool seenSpace = false;
         // Loop through each character in the file
-        // This is buffered by libc, so isn't inefficient
+        // This is buffered by libc, so remains quite efficient
         while(!feof(fp)) {
             char c = fgetc(fp);
 
@@ -64,13 +72,14 @@ int main(int argc, char *argv[]) {
             if(!seenTextStart && isspace(c)) continue;
 
             if(!seenSpace && isspace(c)) seenSpace = true;
-            else if(isgraph(c)) seenSpace = false;
-            else if(isspace(c)) continue;
+            else if(isgraph(c)) seenSpace = false; // End of whitespace
+            else if(isspace(c)) continue; // Collapse successive whitespace
             if(c == '.') {
                 seenPeriod = true;
                 printf(".");
                 continue;
             }
+            // Fix lower-case letters at the start of sentences
             if((seenPeriod || !seenTextStart) && islower(c)) c = toupper(c);
             if(isgraph(c)) {
                 seenTextStart = true;
@@ -80,5 +89,5 @@ int main(int argc, char *argv[]) {
         }
             fclose(fp);
     }
-    return 0;
+    return EXIT_SUCCESS;
 }
