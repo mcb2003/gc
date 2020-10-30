@@ -78,10 +78,16 @@ int main(int argc, char *argv[]) {
         bool seenTextStart = false; // have we seen the first non-space char?
         bool seenPeriod = false;
         bool seenSpace = false;
+        char last = '\0'; // Character before the current one
         // Loop through each character in the file
         // This is buffered by libc, so remains quite efficient
         while(!feof(fp)) {
             char c = fgetc(fp);
+
+            if(!feof(fp) && last == '\n') {
+                print_filename(argv[i], argc);
+                last = '\0';
+            }
 
             // Strip white-space from the beginning of the text
             if(!seenTextStart && isspace(c)) continue;
@@ -101,6 +107,7 @@ int main(int argc, char *argv[]) {
                 seenPeriod = false;
             }
             printf("%c", c);
+            last = c;
         }
             fclose(fp);
     }
