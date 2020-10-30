@@ -32,3 +32,13 @@ Just run `gc <filename>`, where filename is the name of a file you'd like to fix
 ```sh
 ./gc test.txt
 ```
+
+For complete help and usage examples, run `./gc --help`:
+
+    Usage:
+            ./gc # Read from STDIn
+            ./gc file1|-[ file2|-[ ...]]
+
+    ./gc - Grammar Correcter  Copyright (C) 2020  Michael Connor Buchan
+    Corrects grammar and punctuation, and collapses white-space in each of the input
+    files, outputting to STDOUT by default.
