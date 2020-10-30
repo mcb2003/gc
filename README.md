@@ -5,6 +5,12 @@ asked me to write an algorithm to automatically capitalise letters at the
 beginning of sentences. I took the algorithm I came up with a bit further,
 transformed the pseudocode into C, and this was the result.
 
+The code is pretty well commented (some might even say over-commented), in part
+because I'm just getting to grips with C myself for anything approaching a
+"project", and in part because I'd like to show this to people who may not
+have learned C, ormore likely don't know about things like ANSI terminal
+escape codes, the standard streams, etc.
+
 ## Features
 
 * Automatically capitalises the first letter of sentences (only if they start with a letter)
