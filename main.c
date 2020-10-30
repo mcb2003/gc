@@ -10,11 +10,11 @@ char *G_PROG_NAME = "gc";
 
 // Prints help / usage information
 void help(bool usage) {
-    if(usage) printf("%s: No files specified\n", G_PROG_NAME);
-        printf("Usage: %s file1[ file2[ ...]]\n", G_PROG_NAME);
+    if(usage) fprintf(stderr, "%s: No files specified\n", G_PROG_NAME);
+        fprintf(stderr, "Usage: %s file1[ file2[ ...]]\n", G_PROG_NAME);
         if(!usage) {
-            printf("\n%s - Grammar Correcter\n", G_PROG_NAME);
-            printf("Corrects grammar and punctuation, and collapses white-space in each of the input\nfiles, outputting to STDOUT by default.\n");
+            fprintf(stderr, "\n%s - Grammar Correcter\n", G_PROG_NAME);
+            fprintf(stderr, "Corrects grammar and punctuation, and collapses white-space in each of the input\nfiles, outputting to STDOUT by default.\n");
             exit(EXIT_SUCCESS);
         }
         exit(EXIT_FAILURE);
