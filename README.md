@@ -8,9 +8,9 @@ transformed the pseudocode into C, and this was the result.
 ## Features
 
 * Automatically capitalises the first letter of sentences (only if they start with a letter)
-* Collapse any excessive white-space to a single space character
-* Completely trim off white-space at the start of the text
-* Reads from files given as command-line args, writes to standard output
+* Collapses any excessive white-space to a single space character
+* Completely trims off white-space at the start of the text
+* Reads from files given as command-line args (or stdin), writes to standard output
 
 ## Compiling
 
