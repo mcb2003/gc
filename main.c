@@ -80,6 +80,58 @@ void print_filename(const char *fname, int argc) {
     }
 }
 
+// Processes a single file given by fname
+// `argc` is passed only to print_filename
+void process(const char *fname, int argc) {
+    FILE *fp;
+    // If the filename is "-", the user wants stdin
+        if(strcmp(fname, "-") == 0)
+            fp = stdin;
+        else {
+    // Try to open the file
+        fp = fopen(fname, "r");
+    if(!fp) die(fname); // Error reading file
+        }
+    print_filename(fname, argc);
+
+    bool seenTextStart = false; // have we seen the first non-space char?
+    bool seenPeriod = false;
+    bool seenSpace = false;
+    char last = '\0'; // Character before the current one
+    // Loop through each character in the file
+    // This is buffered by libc, so remains quite efficient
+    while(!feof(fp)) {
+        char c = fgetc(fp);
+
+        if(!feof(fp) && last == '\n') {
+            print_filename(fname, argc);
+            last = '\0';
+        }
+
+        // Strip white-space from the beginning of the text
+        if(!seenTextStart && isspace(c)) continue;
+
+        if(!seenSpace && isspace(c)) seenSpace = true;
+        else if(isgraph(c)) seenSpace = false; // End of whitespace
+        else if(isspace(c) && c != '\n') continue; // Collapse successive whitespace
+        if(c == '.') {
+            seenPeriod = true;
+            putchar('.');
+            continue;
+        }
+        // Fix lower-case letters at the start of sentences
+        if((seenPeriod || !seenTextStart) && islower(c)) c = toupper(c);
+        if(isgraph(c)) {
+            seenTextStart = true;
+            seenPeriod = false;
+        }
+        putchar(c);
+        last = c;
+    }
+    fflush(stdout);
+        fclose(fp);
+}
+
 // The entrypoint to the program
 int main(int argc, char *argv[]) {
     // Set the program name
@@ -96,53 +148,7 @@ int main(int argc, char *argv[]) {
     // Process each file specified on the command-line
     // Starts at 1 because 0 is the prog name
     for(int i = 1; i < argc; ++i) {
-        FILE *fp;
-        // If the filename is "-", the user wants stdin
-            if(strcmp(argv[i], "-") == 0)
-                fp = stdin;
-            else {
-        // Try to open the file
-            fp = fopen(argv[i], "r");
-        if(!fp) die(argv[i]); // Error reading file
-            }
-        print_filename(argv[i], argc);
-
-        bool seenTextStart = false; // have we seen the first non-space char?
-        bool seenPeriod = false;
-        bool seenSpace = false;
-        char last = '\0'; // Character before the current one
-        // Loop through each character in the file
-        // This is buffered by libc, so remains quite efficient
-        while(!feof(fp)) {
-            char c = fgetc(fp);
-
-            if(!feof(fp) && last == '\n') {
-                print_filename(argv[i], argc);
-                last = '\0';
-            }
-
-            // Strip white-space from the beginning of the text
-            if(!seenTextStart && isspace(c)) continue;
-
-            if(!seenSpace && isspace(c)) seenSpace = true;
-            else if(isgraph(c)) seenSpace = false; // End of whitespace
-            else if(isspace(c) && c != '\n') continue; // Collapse successive whitespace
-            if(c == '.') {
-                seenPeriod = true;
-                putchar('.');
-                continue;
-            }
-            // Fix lower-case letters at the start of sentences
-            if((seenPeriod || !seenTextStart) && islower(c)) c = toupper(c);
-            if(isgraph(c)) {
-                seenTextStart = true;
-                seenPeriod = false;
-            }
-            putchar(c);
-            last = c;
-        }
-        fflush(stdout);
-            fclose(fp);
+        process(argv[i], argc);
     }
     return EXIT_SUCCESS;
 }
