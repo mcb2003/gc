@@ -47,8 +47,9 @@ bool is_tty() {
 }
 
 // If the output is to a terminal, print the filename in bold
-void print_filename(const char *fname) {
-    if(is_tty()) {
+void print_filename(const char *fname, int argc) {
+    // No need to print if there's only one file as input
+    if(is_tty() && argc > 2) {
         printf("\x1b[1m%s:\x1b[0m", fname);
     }
 }
@@ -72,7 +73,7 @@ int main(int argc, char *argv[]) {
         // Try to open the file
             FILE *fp = fopen(argv[i], "r");
         if(!fp) die(argv[i]); // Error reading file
-        print_filename(argv[i]);
+        print_filename(argv[i], argc);
 
         bool seenTextStart = false; // have we seen the first non-space char?
         bool seenPeriod = false;
@@ -84,7 +85,7 @@ int main(int argc, char *argv[]) {
 
             if(c == '\n') {
                 printf("\n");
-                print_filename(argv[i]);
+                print_filename(argv[i], argc);
                 continue;
             }
 
