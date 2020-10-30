@@ -96,9 +96,15 @@ int main(int argc, char *argv[]) {
     // Process each file specified on the command-line
     // Starts at 1 because 0 is the prog name
     for(int i = 1; i < argc; ++i) {
+        FILE *fp;
+        // If the filename is "-", the user wants stdin
+            if(strcmp(argv[i], "-") == 0)
+                fp = stdin;
+            else {
         // Try to open the file
-            FILE *fp = fopen(argv[i], "r");
+            fp = fopen(argv[i], "r");
         if(!fp) die(argv[i]); // Error reading file
+            }
         print_filename(argv[i], argc);
 
         bool seenTextStart = false; // have we seen the first non-space char?
