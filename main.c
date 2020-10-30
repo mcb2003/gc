@@ -1,4 +1,5 @@
 #include <ctype.h>
+#include <errno.h>
 #include <locale.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -19,7 +20,7 @@ void die(const char *error) {
 
     // Terminate the program
     free(text);
-    exit(1);
+    exit(errno);
 }
 
 int main(int argc, char *argv[]) {
