@@ -83,18 +83,12 @@ int main(int argc, char *argv[]) {
         while(!feof(fp)) {
             char c = fgetc(fp);
 
-            if(c == '\n') {
-                printf("\n");
-                print_filename(argv[i], argc);
-                continue;
-            }
-
             // Strip white-space from the beginning of the text
             if(!seenTextStart && isspace(c)) continue;
 
             if(!seenSpace && isspace(c)) seenSpace = true;
             else if(isgraph(c)) seenSpace = false; // End of whitespace
-            else if(isspace(c)) continue; // Collapse successive whitespace
+            else if(isspace(c) && c != '\n') continue; // Collapse successive whitespace
             if(c == '.') {
                 seenPeriod = true;
                 printf(".");
