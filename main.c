@@ -113,6 +113,7 @@ int main(int argc, char *argv[]) {
             putchar(c);
             last = c;
         }
+        fflush(stdout);
             fclose(fp);
     }
     return EXIT_SUCCESS;
