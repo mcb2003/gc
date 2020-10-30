@@ -46,21 +46,10 @@ bool is_tty() {
     return isatty(fileno(stdout));
 }
 
-// Starts bold text
-void bold() {
-    printf("\x1b[1M");
-}
-// Returns text to normal
-void normal() {
-    printf("\x1b[0M");
-}
-
 // If the output is to a terminal, print the filename in bold
 void print_filename(const char *fname) {
     if(is_tty()) {
-        bold();
-        printf("%s:\n", fname);
-        normal();
+        printf("\x1b[1m%s:\x1b[0m", fname);
     }
 }
 
@@ -92,6 +81,12 @@ int main(int argc, char *argv[]) {
         // This is buffered by libc, so remains quite efficient
         while(!feof(fp)) {
             char c = fgetc(fp);
+
+            if(c == '\n') {
+                printf("\n");
+                print_filename(argv[i]);
+                continue;
+            }
 
             // Strip white-space from the beginning of the text
             if(!seenTextStart && isspace(c)) continue;
