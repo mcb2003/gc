@@ -5,8 +5,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-const size_t BUFF_SIZE = 512;
-
 char *G_PROG_NAME = "gc";
 
 // Prints an error message and terminates
