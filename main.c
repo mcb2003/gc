@@ -31,16 +31,19 @@ int main(int argc, char *argv[]) {
             FILE *fp = fopen(argv[i], "r");
         if(!fp) die(argv[i]); // Error reading file
         bool seenPeriod = false;
+        bool seenSpace = false;
         while(!feof(fp)) {
             char c = fgetc(fp);
+            if(!seenSpace && isspace(c)) seenSpace = true;
+            else if(isgraph(c)) seenSpace = false;
+            else if(isspace(c)) continue;
             if(c == '.') {
                 seenPeriod = true;
-            }
-            if(seenPeriod && isalpha(c)) {
-                printf("%c", toupper(c));
-                seenPeriod = false;
+                printf(".");
                 continue;
             }
+            if(seenPeriod && islower(c)) c = toupper(c);
+            if(isgraph(c)) seenPeriod = false;
             printf("%c", c);
         }
             fclose(fp);
