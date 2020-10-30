@@ -1,0 +1,9 @@
+*.o
+*.obj
+*.dll
+*.a
+*.lib
+*.so
+
+# Binary
+gc
