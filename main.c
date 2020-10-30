@@ -5,6 +5,7 @@
 #include <stdio.h> // Input / Output
 #include <stdlib.h> // Mem management, file I/O
 #include <string.h> // Comparing strings
+#include <unistd.h> // For isatty()
 
 // The name of this program
 // This is modified by main() if it is recieved as the first command-line arg
@@ -40,6 +41,20 @@ void die(const char *error) {
     exit(errno);
 }
 
+// Returns true if output is to a terminal
+bool is_tty() {
+    return isatty(fileno(stdout));
+}
+
+// Starts bold text
+void bold() {
+    printf("\x1b[1M");
+}
+// Returns text to normal
+void normal() {
+    printf("\x1b[0M");
+}
+
 // The entrypoint to the program
 int main(int argc, char *argv[]) {
     // Set the program name
@@ -59,6 +74,13 @@ int main(int argc, char *argv[]) {
         // Try to open the file
             FILE *fp = fopen(argv[i], "r");
         if(!fp) die(argv[i]); // Error reading file
+
+        // If the output is to a terminal, print the filename in bold
+        if(is_tty()) {
+            bold();
+            printf("%s:\n", argv[i]);
+            normal();
+        }
 
         bool seenTextStart = false; // have we seen the first non-space char?
         bool seenPeriod = false;
