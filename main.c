@@ -5,7 +5,7 @@
 #include <stdio.h> // Input / Output
 #include <stdlib.h> // Mem management, file I/O
 #include <string.h> // Comparing strings
-#include <unistd.h> // For isatty()
+#include <unistd.h> // For isatty(), STDOUT_FILENO
 
 // The name of this program
 // This is modified by main() if it is recieved as the first command-line arg
@@ -43,7 +43,7 @@ void die(const char *error) {
 
 // Returns true if output is to a terminal
 bool is_tty() {
-    return isatty(fileno(stdout));
+    return isatty(STDOUT_FILENO);
 }
 
 // If the output is to a terminal, print the filename in bold
