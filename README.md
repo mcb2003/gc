@@ -12,6 +12,12 @@ transformed the pseudocode into C, and this was the result.
 * Completely trim off white-space at the start of the text
 * Reads from files given as command-line args, writes to standard output
 
+## Compiling
+
+All you need to do is run `make` for a debug build, or `make release` for
+a release build. You can also run `make clean` to clean up generated object
+files and the binary itself.
+
 ## Usage
 
 Just run `gc <filename>`, where filename is the name of a file you'd like to fix. For example:
