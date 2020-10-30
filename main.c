@@ -8,6 +8,18 @@
 
 char *G_PROG_NAME = "gc";
 
+// Prints help / usage information
+void help(bool usage) {
+    if(usage) printf("%s: No files specified\n", G_PROG_NAME);
+        printf("Usage: %s file1[ file2[ ...]]\n", G_PROG_NAME);
+        if(!usage) {
+            printf("\n%s - Grammar Correcter\n", G_PROG_NAME);
+            printf("Corrects grammar and punctuation, and collapses white-space in each of the input\nfiles, outputting to STDOUT by default.\n");
+            exit(EXIT_SUCCESS);
+        }
+        exit(EXIT_FAILURE);
+}
+
 // Prints an error message and terminates
 void die(const char *error) {
     // Combine the program name and error message into one string
@@ -28,6 +40,11 @@ int main(int argc, char *argv[]) {
     G_PROG_NAME = argv[0];
     // Set locale to locale specified by the environment
     setlocale(LC_ALL, "");
+
+    // If no files were provided, error!
+    if(argc < 2) help(true);
+    if(argc == 2 && (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0))
+        help(false);
 
     // Check each file specified on the command line
     for(int i = 1; i < argc; ++i) {
