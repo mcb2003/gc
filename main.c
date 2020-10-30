@@ -34,17 +34,14 @@
 char *G_PROG_NAME = "gc";
 
 // Prints help / usage information
-void help(bool usage) {
-    if(usage) fprintf(stderr, "%s: No files specified\n", G_PROG_NAME);
-        fprintf(stderr, "Usage: %s file1[ file2[ ...]]\n", G_PROG_NAME);
-        if(!usage) {
-            fprintf(stderr, "\n%s - Grammar Correcter  Copyright (C) 2020  Michael Connor Buchan\n", G_PROG_NAME);
-            fprintf(stderr, "Corrects grammar and punctuation, and collapses white-space in each of the input\nfiles, outputting to STDOUT by default.\n");
-            // The user just asked for help, this was a success
-            exit(EXIT_SUCCESS);
-        }
-        // The user didn't provide the correct args, fail!
-        exit(EXIT_FAILURE);
+void help() {
+        fprintf(stderr, "Usage:\n");
+        fprintf(stderr, "\t%s # Read from STDIn\n", G_PROG_NAME);
+        fprintf(stderr, "\t%s file1|-[ file2|-[ ...]]\n", G_PROG_NAME);
+        fprintf(stderr, "\n%s - Grammar Correcter  Copyright (C) 2020  Michael Connor Buchan\n", G_PROG_NAME);
+        fprintf(stderr, "Corrects grammar and punctuation, and collapses white-space in each of the input\nfiles, outputting to STDOUT by default.\n");
+        // The user just asked for help, this was a success
+        exit(EXIT_SUCCESS);
 }
 
 // Prints an error message and terminates
@@ -143,8 +140,7 @@ int main(int argc, char *argv[]) {
     if(argc < 2) process("-", argc+1);
 
     // If the user asked for help, output it
-    if(argc == 2 && (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0))
-        help(false);
+    if(argc == 2 && (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0)) help();
 
     // Process each file specified on the command-line
     // Starts at 1 because 0 is the prog name
