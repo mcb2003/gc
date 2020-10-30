@@ -139,8 +139,9 @@ int main(int argc, char *argv[]) {
     // Set locale to locale specified by the environment
     setlocale(LC_ALL, "");
 
-    // If no files were provided, error!
-    if(argc < 2) help(true);
+    // If no files were provided, assume stdin
+    if(argc < 2) process("-", argc+1);
+
     // If the user asked for help, output it
     if(argc == 2 && (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0))
         help(false);
