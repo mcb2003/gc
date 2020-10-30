@@ -39,6 +39,13 @@ Just run `gc <filename>`, where filename is the name of a file you'd like to fix
 ./gc test.txt
 ```
 
+**Output:**
+
+    This is a test file. It's not very well written.
+    That's the point.
+
+    Here's another paragraph.
+
 For complete help and usage examples, run `./gc --help`:
 
     Usage:
