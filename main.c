@@ -50,6 +50,10 @@ bool is_tty() {
 void print_filename(const char *fname, int argc) {
     // No need to print if there's only one file as input
     if(is_tty() && argc > 2) {
+        /**
+         * "\x1b[1m" turns on bold
+         * "\x1b[0m" returns text to normal
+         */
         printf("\x1b[1m%s:\x1b[0m", fname);
     }
 }
@@ -97,7 +101,7 @@ int main(int argc, char *argv[]) {
             else if(isspace(c) && c != '\n') continue; // Collapse successive whitespace
             if(c == '.') {
                 seenPeriod = true;
-                printf(".");
+                putchar('.');
                 continue;
             }
             // Fix lower-case letters at the start of sentences
@@ -106,7 +110,7 @@ int main(int argc, char *argv[]) {
                 seenTextStart = true;
                 seenPeriod = false;
             }
-            printf("%c", c);
+            putchar(c);
             last = c;
         }
             fclose(fp);
