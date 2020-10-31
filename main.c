@@ -82,7 +82,7 @@ void print_filename(const char *fname, int argc) {
 void process(const char *fname, int argc) {
     FILE *fp;
     // If the filename is "-", the user wants stdin
-        if(strcmp(fname, "-") == 0)
+        if(strcoll(fname, "-") == 0)
             fp = stdin;
         else {
     // Try to open the file
@@ -140,7 +140,7 @@ int main(int argc, char *argv[]) {
     if(argc < 2) process("-", argc+1);
 
     // If the user asked for help, output it
-    if(argc == 2 && (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0)) help();
+    if(argc == 2 && (strcoll(argv[1], "-h") == 0 || strcoll(argv[1], "--help") == 0)) help();
 
     // Process each file specified on the command-line
     // Starts at 1 because 0 is the prog name
