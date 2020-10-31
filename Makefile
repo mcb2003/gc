@@ -10,7 +10,7 @@ BINARY = gc
 all: CFLAGS += -DDEBUG -O0 -g
 all: ${BINARY}
 
-release: CFLAGS += -O2
+release: CFLAGS += -O3
 release: ${BINARY}
 	strip ${BINARY}
 
