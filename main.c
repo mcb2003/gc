@@ -51,17 +51,9 @@ void help() {
 
 // Prints an error message and terminates
 void die(const char *error) {
-  // Combine the program name and error message into one string
-  size_t len = strlen(G_PROG_NAME) + 2 + strlen(error) + 1;
-  char *text = (char *)calloc(len, sizeof(char));
-  snprintf(text, len, "%s: %s", G_PROG_NAME, error);
-  text[len - 1] = '\0';
-
-  // Print the error to STDERR
-  perror(text);
+  fprintf(stderr, "%s: %s: %s\n", G_PROG_NAME, error, strerror(errno));
 
   // Terminate the program
-  free(text);
   exit(errno);
 }
 
