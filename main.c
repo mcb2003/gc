@@ -91,10 +91,12 @@ void process(const char *fname, int argc) {
   bool seenPeriod = false;
   bool seenSpace = false;
   char last = '\0'; // Character before the current one
+  // Lock the stream once so we can use the faster `_unlocked` stream functions
+  funlockfile(fp);
   // Loop through each character in the file
   // This is buffered by libc, so remains quite efficient
   while (!feof(fp)) {
-    char c = fgetc(fp);
+    char c = fgetc_unlocked(fp);
 
     if (!feof(fp) && last == '\n') {
       print_filename(fname, argc);
@@ -126,6 +128,7 @@ void process(const char *fname, int argc) {
     putchar(c);
     last = c;
   }
+  funlockfile(fp);
   fflush(stdout);
   fclose(fp);
 }
