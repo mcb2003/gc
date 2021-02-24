@@ -95,7 +95,7 @@ void process(const char *fname, int argc) {
   funlockfile(fp);
   // Loop through each character in the file
   // This is buffered by libc, so remains quite efficient
-  while (!feof(fp)) {
+  while (!feof_unlocked(fp)) {
     char c = fgetc_unlocked(fp);
 
     if (!feof(fp) && last == '\n') {
